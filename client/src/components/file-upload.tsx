@@ -17,7 +17,7 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
     if (rejectedFiles.length > 0) {
       toast({
         title: "Invalid File",
-        description: "Please upload a valid image file (JPG, PNG) or PDF under 10MB.",
+        description: "Please upload a valid image file (JPG or PNG) under 10MB.",
         variant: "destructive",
       });
       return;
@@ -41,8 +41,7 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
     onDragEnter,
     onDragLeave,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png'],
-      'application/pdf': ['.pdf']
+      'image/*': ['.jpeg', '.jpg', '.png']
     },
     maxSize: 10 * 1024 * 1024, // 10MB
     multiple: false,
@@ -77,7 +76,7 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
         Browse Files
       </Button>
       <p className="text-xs text-muted-foreground mt-2">
-        Supports: JPG, PNG, PDF (Max 10MB)
+        Supports: JPG, PNG (Max 10MB)
       </p>
     </div>
   );

@@ -13,6 +13,7 @@ import type { SimplifyResponse } from "@shared/schema";
 export default function DocumentSimplifier() {
   const [text, setText] = useState("");
   const [currentTab, setCurrentTab] = useState("text");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [results, setResults] = useState<SimplifyResponse | null>(null);
   const { toast } = useToast();
 
@@ -94,13 +95,23 @@ export default function DocumentSimplifier() {
     textMutation.mutate(text);
   };
 
+  const handleSubmit = () => {
+    if (currentTab === "file" && selectedFile) {
+      imageMutation.mutate(selectedFile);
+    } else if (currentTab === "text") {
+      handleTextSubmit();
+    }
+  };
+
   const handleFileUpload = (file: File) => {
+    setSelectedFile(file);
     imageMutation.mutate(file);
   };
 
   const handleNewDocument = () => {
     setResults(null);
     setText("");
+    setSelectedFile(null);
   };
 
   const isLoading = textMutation.isPending || imageMutation.isPending;
@@ -189,8 +200,8 @@ export default function DocumentSimplifier() {
             </div>
             
             <Button 
-              onClick={handleTextSubmit}
-              disabled={isLoading || (!text.trim() && currentTab === "text")}
+              onClick={handleSubmit}
+              disabled={isLoading || (currentTab === "text" && !text.trim()) || (currentTab === "file" && !selectedFile)}
               className="bg-primary text-primary-foreground hover:bg-primary/90 transition-all transform hover:scale-105"
               data-testid="button-simplify-document"
             >

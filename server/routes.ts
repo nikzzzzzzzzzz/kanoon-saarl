@@ -16,11 +16,11 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only JPG, PNG, and PDF files are allowed.'));
+      cb(new Error('Invalid file type. Only JPG and PNG image files are allowed.'));
     }
   },
 });
@@ -97,7 +97,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!req.file) {
         return res.status(400).json({ 
           error: "No file uploaded",
-          message: "Please upload a document image (JPG, PNG, or PDF)"
+          message: "Please upload a document image (JPG or PNG)"
         });
       }
 
