@@ -1,12 +1,37 @@
-import express, { type Request, Response, NextFunction } from "express";
+// @ts-check
+import * as express from 'express';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/** @type {import('express').Express} */
 const app = express();
+
+// Set MIME types for JavaScript files
+app.use((req, res, next) => {
+  if (req.url.endsWith('.js')) {
+    res.set('Content-Type', 'application/javascript');
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
+// Serve static files with proper MIME types
+app.use(express.static(path.join(__dirname, '../../dist/public'), {
+  setHeaders: (res, filePath) => {
+    if (typeof filePath === 'string' && filePath.endsWith('.js')) {
+      res.set('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+app.use((req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
