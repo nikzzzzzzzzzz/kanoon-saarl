@@ -1,0 +1,56 @@
+You are going to create a full-stack web application on Replit that works as a **Legal Document Simplifier** using Google Gemini API. The app must have:
+
+1. **Backend (Express)**
+   - Runs on port 5000.
+   - POST endpoint `/simplify` that receives `{ text: "..." }` in JSON.
+   - Calls Gemini API (`gemini-1.5` model) to simplify the text into **plain Indian-English/Hinglish language**, culturally sensitive.
+   - Returns `{ simplified: "..." }`.
+   - Uses environment variable `GEMINI_KEY` for API key.
+
+2. **Frontend (React)**
+   - Runs on default Replit React setup.
+   - Single page:
+     - Textarea to paste legal document.
+     - “Simplify” button.
+     - Output area showing **original text** and **simplified version side by side**.
+   - Uses Axios to POST `/simplify`.
+
+3. **Gemini API Integration**
+   - Chat completions.
+   - Prompt example:
+     "Simplify the following Indian legal document into plain, easy-to-understand language. Explain step by step if needed: '<user text here>'. Use culturally relevant examples and simple words."
+
+4. **CORS Handling**
+   - Allow frontend to call backend.
+
+5. **Optional Extras**
+   - Loading spinner when AI is generating.
+   - Copy-to-clipboard button for simplified text.
+   - Error handling (e.g., if API fails).
+
+6. **Directory Structure**
+   legal-ai-prototype/
+     ├─ backend/
+     │    ├─ index.js
+     │    └─ geminiClient.js
+     ├─ frontend/
+     │    ├─ App.jsx
+     │    └─ components/ (UploadText.jsx, OutputBox.jsx optional)
+     └─ package.json
+
+7. **Tech Stack**
+   - Node.js + Express (backend)
+   - React.js (frontend)
+   - Axios (frontend HTTP)
+   - Google Gemini API
+   - Optional: Firebase for saving simplified docs
+
+8. **Run Instructions**
+   - Backend: `node backend/index.js`
+   - Frontend: default React run (`npm start`)
+
+9. **Output**
+   - User pastes text → clicks Simplify → AI returns simplified text.
+   - Original vs Simplified shown side by side.
+
+Write **full working code** for backend (`index.js` + `geminiClient.js`) and frontend (`App.jsx`) in one go, **ready to paste into Replit**, ensuring it works **without token limits stopping it mid-way**. Include comments for clarity.
